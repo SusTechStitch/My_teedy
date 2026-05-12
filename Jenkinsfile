@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    environment {
+        PATH = "/opt/homebrew/bin:/opt/homebrew/opt/maven/bin:${env.PATH}"
+    }  
 
     stages {
         stage('Clean') {
@@ -54,3 +57,4 @@ pipeline {
         }
     }
 }
+
