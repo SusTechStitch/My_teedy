@@ -1,10 +1,18 @@
 pipeline {
     agent any
     environment {
-        PATH = "/opt/homebrew/bin:/opt/homebrew/opt/maven/bin:${env.PATH}"
+        JAVA_HOME = "/Users/jianggg/Library/Java/JavaVirtualMachines/ms-17.0.16/Contents/Home"
+        PATH = "/Users/jianggg/Library/Java/JavaVirtualMachines/ms-17.0.16/Contents/Home/bin:/opt/homebrew/bin:/opt/homebrew/opt/maven/bin:${env.PATH}"
     }  
 
     stages {
+        stage('Environment') {
+            steps {
+                sh 'java -version'
+                sh 'mvn -version'
+            }
+        }
+
         stage('Clean') {
             steps {
                 sh 'mvn clean'
@@ -26,7 +34,7 @@ pipeline {
 
         stage('PMD') {
             steps {
-                sh 'mvn pmd:pmd'
+                sh 'mvn pmd:pmd -Dpmd.typeResolution=false'
             }
         }
 
@@ -39,7 +47,7 @@ pipeline {
 
         stage('Site') {
             steps {
-                sh 'mvn site'
+                sh 'mvn site -Dpmd.typeResolution=false'
             }
         }
 
@@ -59,4 +67,3 @@ pipeline {
         }
     }
 }
-
