@@ -31,9 +31,10 @@ pipeline {
 
         stage('JaCoCo') {
             steps {
-                sh 'mvn jacoco:report'
+                sh 'mvn org.jacoco:jacoco-maven-plugin:0.8.12:report'
             }
         }
+
 
         stage('Site') {
             steps {
