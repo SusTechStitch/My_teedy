@@ -130,4 +130,31 @@
       </plugin>
     </plugins>
   </build>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>${maven.project.info.reports.plugin.version}</version>
+        <configuration>
+          <dependencyLocationsEnabled>true</dependencyLocationsEnabled>
+          <dependencyDetailsEnabled>true</dependencyDetailsEnabled>
+        </configuration>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>index</report>
+              <report>summary</report>
+              <report>dependencies</report>
+              <report>dependency-convergence</report>
+              <report>plugin-management</report>
+              <report>plugins</report>
+              <report>distribution-management</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+    </plugins>
+  </reporting>
 </project>

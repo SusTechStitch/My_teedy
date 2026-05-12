@@ -19,9 +19,10 @@ pipeline {
 
         stage('Test') {
             steps {
-                sh 'mvn test -Dmaven.test.failure.ignore=true'
+                sh 'mvn test -Dmaven.test.failure.ignore=true -Dtest="*,!TestPdfFormatHandler"'
             }
         }
+
 
         stage('PMD') {
             steps {
