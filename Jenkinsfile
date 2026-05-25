@@ -4,7 +4,7 @@ pipeline {
     parameters {
         string(
             name: 'DOCKER_IMAGE',
-            defaultValue: 'your-dockerhub-username/teedy-app',
+            defaultValue: 'jiang040301/teedy-app',
             description: 'Docker Hub image name, for example: username/teedy-app'
         )
         string(
@@ -46,11 +46,15 @@ pipeline {
 
         stage('Push Docker Image') {
             steps {
-                script {
-                    docker.withRegistry('https://registry.hub.docker.com', params.DOCKER_HUB_CREDENTIALS) {
-                        docker.image("${params.DOCKER_IMAGE}:${env.DOCKER_TAG}").push()
-                        docker.image("${params.DOCKER_IMAGE}:${env.DOCKER_TAG}").push('latest')
-                    }
+                withCredentials([usernamePassword(
+                    credentialsId: params.DOCKER_HUB_CREDENTIALS,
+                    usernameVariable: 'DOCKER_HUB_USERNAME',
+                    passwordVariable: 'DOCKER_HUB_TOKEN'
+                )]) {
+                    sh 'echo "$DOCKER_HUB_TOKEN" | docker login -u "$DOCKER_HUB_USERNAME" --password-stdin'
+                    sh "docker push ${params.DOCKER_IMAGE}:${env.DOCKER_TAG}"
+                    sh "docker tag ${params.DOCKER_IMAGE}:${env.DOCKER_TAG} ${params.DOCKER_IMAGE}:latest"
+                    sh "docker push ${params.DOCKER_IMAGE}:latest"
                 }
             }
         }
